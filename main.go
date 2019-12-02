@@ -6,24 +6,24 @@ import (
 )
 
 func main() {
-	const S = 1024
-	im, err := gg.LoadImage("src.jpg")
+	const X = 300
+	const Y = 149
+	im, err := gg.LoadImage("resources/frames/frame_00_delay-0.06s.jpg")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	dc := gg.NewContext(S, S)
+	dc := gg.NewContext(X, Y)
 	dc.SetRGB(1, 1, 1)
 	dc.Clear()
-	dc.SetRGB(0, 0, 0)
-	if err := dc.LoadFontFace("/Library/Fonts/Arial.ttf", 96); err != nil {
+	dc.SetRGB(1, 1, 1)
+	if err := dc.LoadFontFace("resources/Cocktail.ttf", 16); err != nil {
 		panic(err)
 	}
-	dc.DrawStringAnchored("Hello, world!", S/2, S/2, 0.5, 0.5)
 
-	dc.DrawRoundedRectangle(0, 0, 512, 512, 0)
+	dc.DrawRoundedRectangle(0, 0, X, Y, 0)
 	dc.DrawImage(im, 0, 0)
-	dc.DrawStringAnchored("Hello, world!", S/2, S/2, 0.5, 0.5)
+	dc.DrawStringAnchored("FRANK", X/2, Y/2, 0.5, 0.5)
 	dc.Clip()
 	dc.SavePNG("out.png")
 }
