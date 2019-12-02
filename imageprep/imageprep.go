@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func ImagePrep(name string) {
@@ -35,13 +36,13 @@ func ImagePrep(name string) {
 	dc.SetRGB(1, 1, 1)
 	dc.Clear()
 	dc.SetRGB(1, 1, 1)
-	if err := dc.LoadFontFace("resources/Cocktail.ttf", 18); err != nil {
+	if err := dc.LoadFontFace("resources/Cocktail.ttf", 20); err != nil {
 		panic(err)
 	}
 
 	dc.DrawRoundedRectangle(0, 0, X, Y, 0)
 	dc.DrawImage(im, 0, 0)
-	dc.DrawStringAnchored(name, 197, 132, 0.5, 0.5)
+	dc.DrawStringAnchored(strings.ToUpper(name), 199, 133, 0.5, 0.5)
 	dc.Clip()
 	dc.SavePNG("out.jpg")
 }
