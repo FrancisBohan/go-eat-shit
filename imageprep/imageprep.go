@@ -18,20 +18,18 @@ func ImagePrep(name string) {
 
 	// Get array of paths for frames.
 	err := filepath.Walk("resources/frames", func(path string, info os.FileInfo, err error) error {
-		frames = append(frames, path)[1:]
+		frames = append(frames, path)
 		return nil
 	})
 	if err != nil {
 		panic(err)
 	}
 
-	// fmt.Printf("%v", frames)
-	for frame := range frames {
-		frame := strings.Split(frames[frame], "/")
-		iframe := frame[len(frame)-1]
-		fmt.Printf("frame: %s\n", iframe)
+	for i, f := range frames[1:] {
+		frame := strings.Split(f, "/")[2]
+		fmt.Println(i, f, frame)
 
-		im, err := gg.LoadImage(fmt.Sprintf("resources/frames/%s", iframe))
+		im, err := gg.LoadImage(fmt.Sprintf("resources/frames/%s", frame))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -48,6 +46,6 @@ func ImagePrep(name string) {
 		dc.DrawImage(im, 0, 0)
 		dc.DrawStringAnchored(strings.ToUpper(name), 199, 133, 0.5, 0.5)
 		dc.Clip()
-		dc.SavePNG(fmt.Sprintf("resources/outputframes/%s", iframe))
+		dc.SavePNG(fmt.Sprintf("resources/outputframes/%s", frame))
 	}
 }
