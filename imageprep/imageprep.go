@@ -9,7 +9,9 @@ import (
 	"strings"
 )
 
+//ImagePrep accepts name as a string and preps all individual frame for use in final gif.
 func ImagePrep(name string) {
+	// Size of individual frames.
 	const X = 300
 	const Y = 149
 	var frames []string
@@ -23,6 +25,7 @@ func ImagePrep(name string) {
 		panic(err)
 	}
 
+	fmt.Println(frames)
 	for i := 0; i < len(frames); i++ {
 		fmt.Printf("%02d\n", i)
 	}
@@ -44,5 +47,5 @@ func ImagePrep(name string) {
 	dc.DrawImage(im, 0, 0)
 	dc.DrawStringAnchored(strings.ToUpper(name), 199, 133, 0.5, 0.5)
 	dc.Clip()
-	dc.SavePNG("out.jpg")
+	dc.SavePNG("outputframes/out.jpg")
 }
