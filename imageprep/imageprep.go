@@ -2,6 +2,8 @@ package imageprep
 
 import (
 	"fmt"
+	"image"
+	"image/gif"
 	"log"
 	"os"
 	"path/filepath"
@@ -10,9 +12,9 @@ import (
 	"github.com/fogleman/gg"
 )
 
-func getfilepaths(path string) (paths []string) {
+func getfilepaths(folderpath string) (paths []string) {
 	fmt.Println("getting paths.")
-	err := filepath.Walk("resources/frames", func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(folderpath, func(path string, info os.FileInfo, err error) error {
 		paths = append(paths, path)
 		return nil
 	})
@@ -63,4 +65,23 @@ func ImagePrep(name string) {
 //CreateGIF turns images stored in outputframes folder into a .gif
 func CreateGIF() {
 	fmt.Println("lul")
+	frames := getfilepaths("resources/outputframes")
+	outGif := &gif.GIF{}
+	for _, name := range frames[1:] {
+		fmt.Println(name)
+		f, _ := os.Open(name)
+		inGif, err := gif.Decode(f)
+		if err != nil {
+			fmt.Println(err)
+		}
+		f.Close()
+
+		outGif.Image = append(outGif.Image, inGif.(*image.Paletted))
+		outGif.Delay = append(outGif.Delay, 0)
+	}
+
+	// save to out.gif
+	f, _ := os.OpenFile("out.gif", os.O_WRONLY|os.O_CREATE, 0600)
+	defer f.Close()
+	gif.EncodeAll(f, outGif)
 }
