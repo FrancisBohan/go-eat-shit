@@ -2,11 +2,12 @@ package imageprep
 
 import (
 	"fmt"
-	"github.com/fogleman/gg"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fogleman/gg"
 )
 
 //ImagePrep accepts name as a string and preps all individual frame for use in final gif.
