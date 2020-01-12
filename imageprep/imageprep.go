@@ -10,23 +10,28 @@ import (
 	"github.com/fogleman/gg"
 )
 
-//ImagePrep accepts name as a string and preps all individual frame for use in final gif.
-func ImagePrep(name string) {
-	// Size of individual frames.
-	const X = 300
-	const Y = 149
-	var frames []string
-
-	// Get array of paths for frames.
+func getfilepaths(path string) (paths []string) {
+	fmt.Println("getting paths.")
 	err := filepath.Walk("resources/frames", func(path string, info os.FileInfo, err error) error {
-		frames = append(frames, path)
+		paths = append(paths, path)
 		return nil
 	})
 	if err != nil {
 		panic(err)
 	}
+	return
+}
 
+//ImagePrep accepts name as a string and preps all individual frame for use in final gif.
+func ImagePrep(name string) {
+	// Size of individual frames.
+	const X = 300
+	const Y = 149
+
+	// Get array of paths for frames.
+	frames := getfilepaths("resources/frames")
 	for i, f := range frames[1:] {
+
 		frame := strings.Split(f, "/")[2]
 		fmt.Println(i, f, frame)
 
@@ -53,4 +58,9 @@ func ImagePrep(name string) {
 
 		dc.SavePNG(fmt.Sprintf("resources/outputframes/%s", frame))
 	}
+}
+
+//CreateGIF turns images stored in outputframes folder into a .gif
+func CreateGIF() {
+	fmt.Println("lul")
 }
