@@ -42,11 +42,15 @@ func ImagePrep(name string) {
 		if err := dc.LoadFontFace("resources/Cocktail.ttf", 20); err != nil {
 			panic(err)
 		}
-
 		dc.DrawRoundedRectangle(0, 0, X, Y, 0)
 		dc.DrawImage(im, 0, 0)
-		dc.DrawStringAnchored(strings.ToUpper(name), 199, 133, 0.5, 0.5)
-		dc.Clip()
+		switch {
+		case i > 1 && i < 13:
+			text := fmt.Sprintf("GOD I HATE %s", name)
+			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
+			dc.Clip()
+		}
+
 		dc.SavePNG(fmt.Sprintf("resources/outputframes/%s", frame))
 	}
 }
