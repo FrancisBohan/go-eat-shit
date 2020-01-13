@@ -57,8 +57,14 @@ func ImagePrep(name string) {
 		dc.DrawRoundedRectangle(0, 0, X, Y, 0)
 		dc.DrawImage(im, 0, 0)
 		switch {
-		case i > 1 && i < 13:
+		case i > 1 && i < 15:
 			text := fmt.Sprintf("GOD I HATE %s", name)
+			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
+		case i > 18 && i < 27:
+			text := fmt.Sprintf("HEY %s", name)
+			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
+		case i > 48:
+			text := fmt.Sprintf("YOU WIN THIS ROUND, %s", name)
 			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
 
 		}
