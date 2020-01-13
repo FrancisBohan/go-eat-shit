@@ -41,8 +41,6 @@ func ImagePrep(name string) {
 	for i, f := range frames[1:] {
 
 		frame := strings.Split(f, "/")[2]
-		fmt.Println(i, f, frame)
-
 		im, err := gg.LoadImage(fmt.Sprintf("resources/frames/%s", frame))
 		if err != nil {
 			log.Fatal(err)
