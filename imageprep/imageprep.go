@@ -55,33 +55,50 @@ func ImagePrep(name string) {
 		case i > 1 && i < 13:
 			text := fmt.Sprintf("GOD I HATE %s", name)
 			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
-			dc.Clip()
+
+		}
+		dc.Clip()
+
+		x := dc.Image()
+		out, err := os.Create(fmt.Sprintf("resources/outputframes/%s.gif", frame))
+		if err != nil {
+			fmt.Println(err)
 		}
 
-		dc.SavePNG(fmt.Sprintf("resources/outputframes/%s", frame))
+		var opt gif.Options
+		opt.NumColors = 256
+		err = gif.Encode(out, x, &opt)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
 //CreateGIF turns images stored in outputframes folder into a .gif
-func CreateGIF() {
+func CreateGIF(name string) {
 	fmt.Println("lul")
 	frames := getfilepaths("resources/outputframes")
 	outGif := &gif.GIF{}
 	for _, name := range frames[1:] {
 		fmt.Println(name)
-		f, _ := os.Open(name)
-		inGif, err := gif.Decode(f)
+		f, err := os.Open(name)
+		if err != nil {
+			fmt.Println(err)
+		}
+		img, err := gif.Decode(f)
 		if err != nil {
 			fmt.Println(err)
 		}
 		f.Close()
 
-		outGif.Image = append(outGif.Image, inGif.(*image.Paletted))
-		outGif.Delay = append(outGif.Delay, 0)
+		outGif.Image = append(outGif.Image, img.(*image.Paletted))
+		outGif.Delay = append(outGif.Delay, 6)
 	}
 
-	// save to out.gif
-	f, _ := os.OpenFile("out.gif", os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile(fmt.Sprintf("%s.gif", name), os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		fmt.Println(err)
+	}
 	defer f.Close()
 	gif.EncodeAll(f, outGif)
 }
