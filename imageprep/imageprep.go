@@ -15,6 +15,7 @@ import (
 
 //GoEatShit ...
 func GoEatShit(name string) {
+	os.Mkdir("resources/outputframes", 0755)
 	ImagePrep(name)
 	CreateGIF(name)
 }
