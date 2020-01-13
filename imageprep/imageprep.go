@@ -12,6 +12,11 @@ import (
 	"github.com/fogleman/gg"
 )
 
+func GoEatShit(name string) {
+	ImagePrep(name)
+	CreateGIF(name)
+}
+
 func getfilepaths(folderpath string) (paths []string) {
 	fmt.Println("getting paths.")
 	err := filepath.Walk(folderpath, func(path string, info os.FileInfo, err error) error {
@@ -66,7 +71,7 @@ func ImagePrep(name string) {
 		}
 
 		var opt gif.Options
-		opt.NumColors = 256
+		opt.NumColors = 255
 		err = gif.Encode(out, x, &opt)
 		if err != nil {
 			fmt.Println(err)
