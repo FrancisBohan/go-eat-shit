@@ -49,7 +49,6 @@ func ImagePrep(name string) {
 		dc := gg.NewContext(X, Y)
 		dc.SetRGB(1, 1, 1)
 		dc.Clear()
-		dc.SetRGB(1, 1, 1)
 		if err := dc.LoadFontFace("resources/Cocktail.ttf", 20); err != nil {
 			panic(err)
 		}
