@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/fogleman/gg"
@@ -66,7 +67,6 @@ func ImagePrep(name string) {
 		case i > 48:
 			text := fmt.Sprintf("YOU WIN THIS ROUND, %s", name)
 			dc.DrawStringAnchored(strings.ToUpper(text), 150, 139, 0.5, 0.5)
-
 		}
 		dc.Clip()
 
@@ -90,7 +90,10 @@ func CreateGIF(name string) {
 	frames := getfilepaths("resources/outputframes")
 	outGif := &gif.GIF{}
 	for _, name := range frames[1:] {
-		fmt.Println(name)
+		delay, err := strconv.Atoi(strings.Replace((strings.Split(name, ".")[1]), "s", "", 1))
+		if err != nil {
+			panic(err)
+		}
 		f, err := os.Open(name)
 		if err != nil {
 			panic(err)
@@ -102,7 +105,7 @@ func CreateGIF(name string) {
 		f.Close()
 
 		outGif.Image = append(outGif.Image, img.(*image.Paletted))
-		outGif.Delay = append(outGif.Delay, 6)
+		outGif.Delay = append(outGif.Delay, delay)
 	}
 
 	f, err := os.OpenFile(fmt.Sprintf("%s.gif", name), os.O_WRONLY|os.O_CREATE, 0600)
