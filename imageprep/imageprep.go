@@ -12,13 +12,13 @@ import (
 	"github.com/fogleman/gg"
 )
 
+//GoEatShit ...
 func GoEatShit(name string) {
 	ImagePrep(name)
 	CreateGIF(name)
 }
 
 func getfilepaths(folderpath string) (paths []string) {
-	fmt.Println("getting paths.")
 	err := filepath.Walk(folderpath, func(path string, info os.FileInfo, err error) error {
 		paths = append(paths, path)
 		return nil
@@ -67,32 +67,31 @@ func ImagePrep(name string) {
 		x := dc.Image()
 		out, err := os.Create(fmt.Sprintf("resources/outputframes/%s.gif", frame))
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 
 		var opt gif.Options
 		opt.NumColors = 255
 		err = gif.Encode(out, x, &opt)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 	}
 }
 
 //CreateGIF turns images stored in outputframes folder into a .gif
 func CreateGIF(name string) {
-	fmt.Println("lul")
 	frames := getfilepaths("resources/outputframes")
 	outGif := &gif.GIF{}
 	for _, name := range frames[1:] {
 		fmt.Println(name)
 		f, err := os.Open(name)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 		img, err := gif.Decode(f)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 		f.Close()
 
@@ -102,7 +101,7 @@ func CreateGIF(name string) {
 
 	f, err := os.OpenFile(fmt.Sprintf("%s.gif", name), os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 	defer f.Close()
 	gif.EncodeAll(f, outGif)
